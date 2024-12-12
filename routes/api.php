@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 Route::post('/password-reset-request', [AuthController::class, 'passwordResetRequest']);
 Route::post('/password-reset', [AuthController::class, 'resetPassword']);
+
+Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/{id}', [ArticleController::class, 'show']);
