@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class ArticleController extends Controller
 
         $articles = $query->paginate(10); // Pagination
 
-        return response()->json($articles);
+        return ArticleResource::collection($articles);
     }
 
     public function show($id)
@@ -45,6 +46,6 @@ class ArticleController extends Controller
             return response()->json(['message' => 'Article not found'], 404);
         }
 
-        return response()->json($article);
+        return new ArticleResource($article);
     }
 }
