@@ -13,6 +13,253 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/articles": {
+            "get": {
+                "tags": [
+                    "Articles"
+                ],
+                "summary": "Get a list of articles",
+                "description": "Retrieve a list of articles with optional filters for keyword, date, category, and source. Results are paginated.",
+                "operationId": "getArticles",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Search for articles by keyword in the title",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "euro"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Filter articles by publication date (YYYY-MM-DD)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-12-10"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filter articles by category",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "sports"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "description": "Filter articles by source",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "New York Times"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of articles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Breaking News: Euro Hits All-Time High"
+                                                    },
+                                                    "content": {
+                                                        "type": "string",
+                                                        "example": "The Euro reached a record high today."
+                                                    },
+                                                    "published_at": {
+                                                        "type": "string",
+                                                        "format": "datetime",
+                                                        "example": "2024-12-10T10:00:00Z"
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "example": "Finance"
+                                                    },
+                                                    "source": {
+                                                        "type": "string",
+                                                        "example": "New York Times"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/articles?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/articles?page=5"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/articles?page=2"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/articles"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid parameters"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/articles/{id}": {
+            "get": {
+                "tags": [
+                    "Articles"
+                ],
+                "summary": "Get a specific article by ID",
+                "description": "Retrieve the details of a specific article by its ID.",
+                "operationId": "getArticleById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the article to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 100
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Article retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Breaking News: Euro Hits All-Time High"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "The Euro reached a record high today."
+                                        },
+                                        "published_at": {
+                                            "type": "string",
+                                            "format": "datetime",
+                                            "example": "2024-12-10T10:00:00Z"
+                                        },
+                                        "category": {
+                                            "type": "string",
+                                            "example": "Finance"
+                                        },
+                                        "source": {
+                                            "type": "string",
+                                            "example": "New York Times"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Article not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Article not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "tags": [
@@ -389,12 +636,410 @@
                     }
                 ]
             }
+        },
+        "/preferences": {
+            "get": {
+                "tags": [
+                    "User Preferences"
+                ],
+                "summary": "Get user preferences",
+                "description": "Retrieve the preferences of the authenticated user, including preferred sources, categories, and authors.",
+                "operationId": "getUserPreferences",
+                "responses": {
+                    "200": {
+                        "description": "User preferences retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "sources": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "NewsAPI"
+                                                    }
+                                                },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Technology"
+                                                    }
+                                                },
+                                                "authors": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    }
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-12-15T15:07:55.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-12-15T15:09:13.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No preferences found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No preferences found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User Preferences"
+                ],
+                "summary": "Set user preferences",
+                "description": "Update or create the preferences of the authenticated user, including sources, categories, and authors.",
+                "operationId": "setUserPreferences",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "sources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "NewsAPI"
+                                        }
+                                    },
+                                    "categories": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Technology"
+                                        }
+                                    },
+                                    "authors": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Tom Ambrose"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Preferences updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Preferences updated successfully"
+                                        },
+                                        "preferences": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "sources": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "NewsAPI"
+                                                    }
+                                                },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Technology"
+                                                    }
+                                                },
+                                                "authors": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Tom Ambrose"
+                                                    }
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-12-15T15:07:55.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2024-12-15T15:09:13.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/personalized-news": {
+            "get": {
+                "tags": [
+                    "Personalized News"
+                ],
+                "summary": "Get personalized news",
+                "description": "Retrieve a list of personalized news articles based on the authenticated user's preferences (sources, categories, and authors).",
+                "operationId": "getPersonalizedNews",
+                "responses": {
+                    "200": {
+                        "description": "Personalized news articles retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 31
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Marcus Fakana: Briton, 18, sentenced over Dubai sex with girl, 17"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Marcus Fakana has been jailed for a year over the relationship, a campaign group in Dubai says."
+                                                    },
+                                                    "author": {
+                                                        "type": "string",
+                                                        "example": "BBC News"
+                                                    },
+                                                    "source": {
+                                                        "type": "string",
+                                                        "example": "BBC News"
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "example": "General"
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "format": "url",
+                                                        "example": "https://www.bbc.co.uk/news/articles/cly2zq1yl0ko"
+                                                    },
+                                                    "published_at": {
+                                                        "type": "string",
+                                                        "format": "datetime",
+                                                        "example": "2024-12-11T12:22:21.5477043Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/personalized-news?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/personalized-news?page=5"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/personalized-news?page=2"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://127.0.0.1:8000/api/personalized-news"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No preferences found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No preferences found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "tags": [
         {
+            "name": "Articles",
+            "description": "Articles"
+        },
+        {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "User Preferences",
+            "description": "User Preferences"
+        },
+        {
+            "name": "Personalized News",
+            "description": "Personalized News"
         }
     ]
 }
