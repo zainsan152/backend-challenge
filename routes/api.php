@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserPreferenceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/articles', [ArticleController::class, 'index']);
     Route::get('/articles/{id}', [ArticleController::class, 'show']);
+
+    Route::get('/preferences', [UserPreferenceController::class, 'getPreferences']);
+    Route::post('/preferences', [UserPreferenceController::class, 'setPreferences']);
+    Route::get('/personalized-news', [UserPreferenceController::class, 'getPersonalizedNews']);
 });
 
