@@ -25,10 +25,10 @@ This project is a RESTful API built with Laravel to aggregate news from various 
    `docker compose up --build`
 
 4. **Run database migrations**:  
-   `docker exec -it laravel_app bash -c "php artisan migrate && php artisan key:generate"`
+   `docker exec -it backend-challenge bash -c "php artisan migrate && php artisan key:generate"`
 
 5. **Fetch news articles**:  
-   `docker exec -it laravel_app bash -c "php artisan articles:fetch"`
+   `docker exec -it backend-challenge bash -c "php artisan articles:fetch"`
 
 6. **Access the application**:  
    Open [http://localhost:8000](http://localhost:8000).
